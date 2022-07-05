@@ -1,4 +1,5 @@
- import React, { useContext, useState } from 'react'
+import React, { useContext, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../Context';
  
  function TodoForm() {
@@ -6,6 +7,9 @@ import { AppContext } from '../Context';
       todo:"",
       endDate:""
     });
+
+    const Navigate=useNavigate();
+
 
     function handleChange(evt) {
       const value = evt.target.value;
@@ -15,7 +19,7 @@ import { AppContext } from '../Context';
       });
     }
 
-    const {SaveTodo,getTodos}=useContext(AppContext)
+    const {SaveTodo,getTodos,userId,Logout}=useContext(AppContext)
 
     const handleFormSubmit=(e)=>{
         e.preventDefault();
@@ -26,12 +30,19 @@ import { AppContext } from '../Context';
           endDate:""
         })
     }
+
+    const Loggedout=()=>{
+      Logout();
+    }
    return (
      <div>
          <p className="h1 text-center mt-3 mb-4 pb-3 text-primary">
               <i className="fas fa-check-square me-1"></i>
               <u>My Todo-s</u>
             </p>
+            <h1> {userId ? userId : ""}</h1>
+            <span onClick={Loggedout}>{userId?"Logout":""}</span>
+            <span onClick={()=>Navigate("/Login")}>{userId?"":"Login"}</span>
 
             <div className="pb-2">
               <div className="card">
